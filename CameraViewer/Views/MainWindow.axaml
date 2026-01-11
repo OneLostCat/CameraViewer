@@ -1,0 +1,128 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CameraViewer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CameraViewer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="CameraViewer"
+        MinWidth="800"
+        MinHeight="450">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <DockPanel Margin="5">
+        
+        <!-- 播放控件 -->
+        <Border DockPanel.Dock="Bottom"
+                Height="160"
+                CornerRadius="10"
+                Background="rgba(0,0,0,0.2)">
+
+            <DockPanel Margin="5">
+                <Panel DockPanel.Dock="Top">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="2">
+                        <Button Width="32" Padding="1" FontSize="10">快退</Button>
+                        <Button Width="32" Padding="1" FontSize="10">后跳</Button>
+                        <Button Width="32" Padding="1" FontSize="10">播放</Button>
+                        <Button Width="32" Padding="1" FontSize="10">前跳</Button>
+                        <Button Width="32" Padding="1" FontSize="10">快进</Button>
+                    </StackPanel>
+
+                    <DockPanel LastChildFill="False">
+                        <ComboBox DockPanel.Dock="Right" Width="60"  FontSize="10" />
+                    </DockPanel>
+
+                </Panel>
+
+                <TextBlock DockPanel.Dock="Bottom"
+                           FontSize="24"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    时间线
+                </TextBlock>
+            </DockPanel>
+        </Border>
+
+        <!-- 摄像机列表 -->
+        <DockPanel DockPanel.Dock="Left"
+                   Margin="0,0,0,5"
+                   Width="220">
+
+            <Border DockPanel.Dock="Top"
+                    Background="rgba(0,0,0,0.2)"
+                    CornerRadius="10">
+                <DockPanel Margin="5">
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5">
+                        
+                        <Button DockPanel.Dock="Right" 
+                                Width="32" 
+                                Margin="5,0,0,0" />
+
+                        <TextBox Watermark="搜索摄像机"
+                                 CornerRadius="5"
+                                 TextAlignment="Center" />
+                    
+                    </DockPanel>
+                    
+                    <ListBox>
+                        <ListBoxItem Content="摄像机 1" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 2" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 3" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 4" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 5" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 6" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 7" Margin="0,0,0,5" CornerRadius="10" />
+                        <ListBoxItem Content="摄像机 8" Margin="0,0,0,0" CornerRadius="10" />
+                    </ListBox>
+                </DockPanel>
+            </Border>
+        </DockPanel>
+
+        <!-- 事件列表 -->
+        <Border DockPanel.Dock="Right"
+                Margin="0,0,0,5"
+                Width="220"
+                CornerRadius="10"
+                Background="rgba(0,0,0,0.2)">
+            <DockPanel Margin="5">
+                <TextBox DockPanel.Dock="Top"
+                         Margin="0,0,0,5"
+                         Watermark="搜索事件"
+                         CornerRadius="5"
+                         TextAlignment="Center" />
+                
+                <ListBox>
+                    <ListBoxItem Content="事件 1" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 2" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 3" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 4" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 5" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 6" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 7" Margin="0,0,0,5" CornerRadius="10" />
+                    <ListBoxItem Content="事件 8" Margin="0,0,0,0" CornerRadius="10" />
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+
+        <!-- 视频播放器 -->
+        <Border Margin="5,0,5,5"
+                CornerRadius="10"
+                Background="rgba(0,0,0,0.2)">
+
+            <TextBlock FontSize="24"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                视频
+            </TextBlock>
+        </Border>
+
+    </DockPanel>
+</Window>

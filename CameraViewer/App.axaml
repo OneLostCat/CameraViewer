@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CameraViewer.App"
+             xmlns:local="using:CameraViewer"
+             xmlns:semi="https://irihi.tech/semi"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <semi:SemiTheme Locale="zh-CN"/>
+    </Application.Styles>
+             
+    <Application.Resources>
+        <StreamGeometry x:Key="DeleteIconData">The path data</StreamGeometry>
+        <StreamGeometry x:Key="AcceptIconData">The path data</StreamGeometry>
+    </Application.Resources>
+             
+</Application>
