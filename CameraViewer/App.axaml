@@ -14,9 +14,4 @@
         <semi:SemiTheme Locale="zh-CN"/>
     </Application.Styles>
              
-    <Application.Resources>
-        <StreamGeometry x:Key="DeleteIconData">The path data</StreamGeometry>
-        <StreamGeometry x:Key="AcceptIconData">The path data</StreamGeometry>
-    </Application.Resources>
-             
 </Application>

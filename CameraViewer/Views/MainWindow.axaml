@@ -3,6 +3,7 @@
         xmlns:vm="using:CameraViewer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ail="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CameraViewer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -18,7 +19,7 @@
     </Design.DataContext>
 
     <DockPanel Margin="5">
-        
+
         <!-- 播放控件 -->
         <Border DockPanel.Dock="Bottom"
                 Height="160"
@@ -27,20 +28,20 @@
 
             <DockPanel Margin="5">
                 <Panel DockPanel.Dock="Top">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="2">
-                        <Button Width="32" Padding="1" FontSize="10">快退</Button>
-                        <Button Width="32" Padding="1" FontSize="10">后跳</Button>
-                        <Button Width="32" Padding="1" FontSize="10">播放</Button>
-                        <Button Width="32" Padding="1" FontSize="10">前跳</Button>
-                        <Button Width="32" Padding="1" FontSize="10">快进</Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">快退</Button>
+                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">后跳</Button>
+                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">播放</Button>
+                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">前跳</Button>
+                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">快进</Button>
                     </StackPanel>
-
                     <DockPanel LastChildFill="False">
-                        <ComboBox DockPanel.Dock="Right" Width="60"  FontSize="10" />
+                        <ComboBox DockPanel.Dock="Right"
+                                  Width="60"
+                                  FontSize="10"
+                                  CornerRadius="10" />
                     </DockPanel>
-
                 </Panel>
-
                 <TextBlock DockPanel.Dock="Bottom"
                            FontSize="24"
                            VerticalAlignment="Center"
@@ -58,28 +59,47 @@
             <Border DockPanel.Dock="Top"
                     Background="rgba(0,0,0,0.2)"
                     CornerRadius="10">
+
                 <DockPanel Margin="5">
-                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5">
-                        
-                        <Button DockPanel.Dock="Right" 
-                                Width="32" 
-                                Margin="5,0,0,0" />
+                    <DockPanel DockPanel.Dock="Top"
+                               Margin="0,0,0,5">
+
+                        <Button DockPanel.Dock="Right"
+                                Width="32"
+                                Margin="5,0,0,0"
+                                CornerRadius="10" />
 
                         <TextBox Watermark="搜索摄像机"
-                                 CornerRadius="5"
-                                 TextAlignment="Center" />
-                    
+                                 CornerRadius="10" />
+
                     </DockPanel>
-                    
-                    <ListBox>
-                        <ListBoxItem Content="摄像机 1" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 2" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 3" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 4" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 5" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 6" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 7" Margin="0,0,0,5" CornerRadius="10" />
-                        <ListBoxItem Content="摄像机 8" Margin="0,0,0,0" CornerRadius="10" />
+
+                    <ListBox ItemsSource="{Binding Cameras}">
+                        <!-- 元素模板 -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <PathIcon Height="32" Width="32" />
+                                    <TextBlock Text="{Binding Name}"
+                                               VerticalAlignment="Center" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <!-- 元素间隔 -->
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="5" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <!-- 元素样式 -->
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="CornerRadius" Value="10" />
+                            </Style>
+                        </ListBox.Styles>
                     </ListBox>
                 </DockPanel>
             </Border>
@@ -95,18 +115,51 @@
                 <TextBox DockPanel.Dock="Top"
                          Margin="0,0,0,5"
                          Watermark="搜索事件"
-                         CornerRadius="5"
-                         TextAlignment="Center" />
-                
-                <ListBox>
-                    <ListBoxItem Content="事件 1" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 2" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 3" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 4" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 5" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 6" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 7" Margin="0,0,0,5" CornerRadius="10" />
-                    <ListBoxItem Content="事件 8" Margin="0,0,0,0" CornerRadius="10" />
+                         CornerRadius="10" />
+
+                <ListBox ItemsSource="{Binding Events}">
+                    <!-- 元素模板 -->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <Border CornerRadius="10" ClipToBounds="True">
+                                    <Image Height="120"
+                                           Stretch="Fill"
+                                           ail:ImageLoader.Source="{Binding ImageUrl}" />
+                                </Border>
+
+                                <DockPanel Margin="5,5,5,0">
+                                    <TextBlock DockPanel.Dock="Left"
+                                               Text="{Binding Title}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+
+                                    <TextBlock DockPanel.Dock="Right"
+                                               Text="{Binding Time}"
+                                               Margin="10,0,0,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </DockPanel>
+
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <!-- 元素间隔 -->
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="5" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <!-- 元素样式 -->
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="CornerRadius" Value="10" />
+                        </Style>
+                    </ListBox.Styles>
                 </ListBox>
             </DockPanel>
         </Border>

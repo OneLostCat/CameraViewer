@@ -16,11 +16,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.5.0" />
         <PackageReference Include="Avalonia" Version="11.3.10" />
         <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
