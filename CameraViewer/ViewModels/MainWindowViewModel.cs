@@ -2,61 +2,80 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using CameraViewer.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LibVLCSharp.Shared;
 
 namespace CameraViewer.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase, IDisposable
+public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly LibVLC _libVlc = new();
 
-    public MediaPlayer MediaPlayer { get; }
+    [ObservableProperty] private MediaPlayer _mediaPlayer;
+
+    [ObservableProperty] private int _volume = 100;
+
+    [ObservableProperty] private float _rate = 1;
+    
+    [ObservableProperty] private double _rateStep = 2; // 1x 速率
 
     public MainWindowViewModel()
     {
         MediaPlayer = new MediaPlayer(_libVlc);
     }
-    
+
+    [RelayCommand]
     private void Switch()
     {
+        if (Design.IsDesignMode) return;
+
         if (MediaPlayer.IsPlaying)
         {
-            Pause();
+            MediaPlayer.Pause();
+        }
+        else if (MediaPlayer.Media != null)
+        {
+            MediaPlayer.Play();
         }
         else
         {
-            Play();
+            using var media = new Media(_libVlc,
+                new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+
+            MediaPlayer.Play(media);
         }
     }
 
-    public void Play()
-    {
-        if (Design.IsDesignMode) return;
-        
-        using var media = new Media(_libVlc,
-            new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
-        
-        MediaPlayer.Play(media);
-    }
+    [RelayCommand]
+    private void MoveForward() => 
+        MediaPlayer.Time += 5 * 1000;
 
-    public void Pause()
+    [RelayCommand]
+    private void MoveBackward() => 
+        MediaPlayer.Time -= 5 * 1000;
+    
+    [RelayCommand]
+    private void JumpForward() => 
+        MediaPlayer.Time += 60 * 1000;
+
+    [RelayCommand]
+    private void JumpBackward() => 
+        MediaPlayer.Time -= 60 * 1000;
+
+    partial void OnVolumeChanged(int value) => 
+        MediaPlayer.Volume = value;
+
+    partial void OnRateStepChanged(double value)
     {
-        MediaPlayer.Pause();
+        float[] rateSteps = [0.25f, 0.5f, 1, 2, 4, 8, 16];
+        
+        var rate = rateSteps[(int)value];
+        
+        MediaPlayer.SetRate(rate);
+        Rate = rate;
     }
     
-    public void Stop()
-    {
-        MediaPlayer.Stop();
-    }
-
-    public void Dispose()
-    {
-        MediaPlayer.Dispose();
-        _libVlc.Dispose();
-
-        GC.SuppressFinalize(this);
-    }
-
     public ObservableCollection<Camera> Cameras { get; } =
     [
         new() { Name = "摄像机 1" },

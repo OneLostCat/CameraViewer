@@ -1,0 +1,73 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CameraViewer.Controls.EventList"
+             xmlns:vm="using:CameraViewer.ViewModels"
+             xmlns:ail="using:AsyncImageLoader"
+             x:DataType="vm:MainWindowViewModel">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Border CornerRadius="10"
+            Background="rgba(0,0,0,0.2)">
+        
+        <DockPanel Margin="5">
+            <DockPanel DockPanel.Dock="Top"
+                       Margin="0,0,0,5"
+                       HorizontalSpacing="5">
+                
+                <Button DockPanel.Dock="Right">过滤</Button>
+                <TextBox CornerRadius="10" Watermark="搜索事件" />
+            </DockPanel>
+
+            <ListBox ItemsSource="{Binding Events}">
+                <!-- 元素模板 -->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <Border CornerRadius="10" ClipToBounds="True">
+                                <Image Height="120"
+                                       Stretch="Fill"
+                                       ail:ImageLoader.Source="{Binding ImageUrl}" />
+                            </Border>
+
+                            <DockPanel Margin="5,5,5,0">
+                                <TextBlock DockPanel.Dock="Left"
+                                           Text="{Binding Title}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+
+                                <TextBlock DockPanel.Dock="Right"
+                                           Text="{Binding Time}"
+                                           Margin="10,0,0,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </DockPanel>
+
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+                <!-- 元素间隔 -->
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="5" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <!-- 元素样式 -->
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="CornerRadius" Value="10" />
+                    </Style>
+                </ListBox.Styles>
+            </ListBox>
+        </DockPanel>
+    </Border>
+</UserControl>

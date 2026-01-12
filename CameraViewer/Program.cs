@@ -16,9 +16,6 @@ sealed class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .WithInterFont()
             .LogToTrace()
-            .WithDeveloperTools()
-            .UseSkia()
-            .With(new SkiaOptions { MaxGpuResourceSizeBytes = 8096000 });
+            .WithDeveloperTools();
 }

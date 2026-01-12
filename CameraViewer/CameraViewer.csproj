@@ -5,6 +5,10 @@
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    </PropertyGroup>
+
+    <!-- 应用信息 -->
+    <PropertyGroup>
         <Title>Camera Viewer</Title>
         <Authors>OneLostCat</Authors>
         <Description>Camera Viewer</Description>
@@ -14,16 +18,21 @@
         <AssemblyVersion>1.0.0</AssemblyVersion>
         <FileVersion>1.0.0</FileVersion>
     </PropertyGroup>
-
+    
+    <!-- AOT -->
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <PublishAot>true</PublishAot>
+        <!-- Necessary before Avalonia 12.0, was used for accessiblity APIs -->
+        <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+    </PropertyGroup>
+    
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.5.0" />
-        <PackageReference Include="Avalonia" Version="11.3.10" />
         <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.10" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />

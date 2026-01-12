@@ -24,20 +24,17 @@ public partial class App : Application
         DisableAvaloniaDataValidation();
         
         // 服务
-        // var collection = new ServiceCollection();
-
-        // collection.AddSingleton<MainWindowViewModel>();
-
-        // var service = collection.BuildServiceProvider();
-
-        // 设置 ViewModel
-        // var viewModel = service.GetRequiredService<MainWindowViewModel>();
+        var collection = new ServiceCollection();
+        collection.AddSingleton<MainWindowViewModel>();
+        
+        var service = collection.BuildServiceProvider();
+        var vm = service.GetRequiredService<MainWindowViewModel>();
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel()
+                DataContext = vm
             };
         }
 
