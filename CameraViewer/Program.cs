@@ -17,5 +17,8 @@ sealed class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace();
+            .LogToTrace()
+            .WithDeveloperTools()
+            .UseSkia()
+            .With(new SkiaOptions { MaxGpuResourceSizeBytes = 8096000 });
 }

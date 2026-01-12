@@ -1,10 +1,62 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using CameraViewer.Models;
+using LibVLCSharp.Shared;
 
 namespace CameraViewer.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase, IDisposable
 {
+    private readonly LibVLC _libVlc = new();
+
+    public MediaPlayer MediaPlayer { get; }
+
+    public MainWindowViewModel()
+    {
+        MediaPlayer = new MediaPlayer(_libVlc);
+    }
+    
+    private void Switch()
+    {
+        if (MediaPlayer.IsPlaying)
+        {
+            Pause();
+        }
+        else
+        {
+            Play();
+        }
+    }
+
+    public void Play()
+    {
+        if (Design.IsDesignMode) return;
+        
+        using var media = new Media(_libVlc,
+            new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+        
+        MediaPlayer.Play(media);
+    }
+
+    public void Pause()
+    {
+        MediaPlayer.Pause();
+    }
+    
+    public void Stop()
+    {
+        MediaPlayer.Stop();
+    }
+
+    public void Dispose()
+    {
+        MediaPlayer.Dispose();
+        _libVlc.Dispose();
+
+        GC.SuppressFinalize(this);
+    }
+
     public ObservableCollection<Camera> Cameras { get; } =
     [
         new() { Name = "摄像机 1" },

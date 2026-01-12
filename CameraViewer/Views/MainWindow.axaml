@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ail="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CameraViewer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -18,6 +19,15 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="CornerRadius" Value="10" />
+        </Style>
+    </Window.Styles>
+
     <DockPanel Margin="5">
 
         <!-- 播放控件 -->
@@ -29,17 +39,29 @@
             <DockPanel Margin="5">
                 <Panel DockPanel.Dock="Top">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">快退</Button>
-                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">后跳</Button>
-                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">播放</Button>
-                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">前跳</Button>
-                        <Button Width="32" Padding="0" FontSize="10" CornerRadius="10">快进</Button>
+                        <Button>快退</Button>
+                        <Button>后跳</Button>
+                        <Button Command="{Binding Switch}">播放</Button>
+                        <Button>前跳</Button>
+                        <Button>快进</Button>
                     </StackPanel>
-                    <DockPanel LastChildFill="False">
+                    <DockPanel LastChildFill="False" HorizontalSpacing="5">
+                        <Slider DockPanel.Dock="Right" Width="100" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center">音量</TextBlock>
+
                         <ComboBox DockPanel.Dock="Right"
                                   Width="60"
                                   FontSize="10"
                                   CornerRadius="10" />
+                        <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center">速度</TextBlock>
+                    </DockPanel>
+
+                    <DockPanel LastChildFill="False" HorizontalSpacing="5">
+                        <Button>一屏</Button>
+                        <Button>二竖</Button>
+                        <Button>二横</Button>
+                        <Button>四屏</Button>
                     </DockPanel>
                 </Panel>
                 <TextBlock DockPanel.Dock="Bottom"
@@ -62,15 +84,12 @@
 
                 <DockPanel Margin="5">
                     <DockPanel DockPanel.Dock="Top"
-                               Margin="0,0,0,5">
+                               Margin="0,0,0,5"
+                               HorizontalSpacing="5">
 
-                        <Button DockPanel.Dock="Right"
-                                Width="32"
-                                Margin="5,0,0,0"
-                                CornerRadius="10" />
-
-                        <TextBox Watermark="搜索摄像机"
-                                 CornerRadius="10" />
+                        <Button DockPanel.Dock="Right">设置</Button>
+                        <Button DockPanel.Dock="Right">添加</Button>
+                        <TextBox CornerRadius="10" Watermark="搜索摄像机" />
 
                     </DockPanel>
 
@@ -112,11 +131,13 @@
                 CornerRadius="10"
                 Background="rgba(0,0,0,0.2)">
             <DockPanel Margin="5">
-                <TextBox DockPanel.Dock="Top"
-                         Margin="0,0,0,5"
-                         Watermark="搜索事件"
-                         CornerRadius="10" />
-
+                <DockPanel DockPanel.Dock="Top"
+                           Margin="0,0,0,5"
+                           HorizontalSpacing="5">
+                    <Button DockPanel.Dock="Right">过滤</Button>
+                    <TextBox CornerRadius="10" Watermark="搜索事件"/>
+                </DockPanel>
+                
                 <ListBox ItemsSource="{Binding Events}">
                     <!-- 元素模板 -->
                     <ListBox.ItemTemplate>
@@ -169,13 +190,12 @@
         <Border Margin="5,0,5,5"
                 CornerRadius="10"
                 Background="rgba(0,0,0,0.2)">
-
-            <TextBlock FontSize="24"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center">
-                视频
-            </TextBlock>
+            
+            <DockPanel>
+                <vlc:VideoView MediaPlayer="{Binding MediaPlayer}" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
+            </DockPanel>
         </Border>
-
     </DockPanel>
 </Window>
