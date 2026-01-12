@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="180"
              x:Class="CameraViewer.Controls.PlaybackController"
              xmlns:vm="using:CameraViewer.ViewModels"
              x:DataType="vm:MainWindowViewModel">
@@ -10,6 +10,15 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
+    
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="CornerRadius" Value="10" />
+        </Style>
+    </UserControl.Styles>
 
     <Border CornerRadius="10"
             Background="rgba(0,0,0,0.2)">
@@ -23,42 +32,48 @@
                     <Button Command="{Binding MoveForwardCommand}">前进</Button>
                     <Button Command="{Binding JumpForwardCommand}">前跳</Button>
                 </StackPanel>
-                <DockPanel LastChildFill="False" HorizontalSpacing="5">
-                    <TextBlock DockPanel.Dock="Right"
-                               Width="30"
-                               VerticalAlignment="Center"
-                               Text="{Binding Volume}" />
-
-                    <Slider DockPanel.Dock="Right"
-                            Width="100"
-                            VerticalAlignment="Center"
-                            Value="{Binding Volume}" />
-
-                    <TextBlock DockPanel.Dock="Right" 
-                               VerticalAlignment="Center">
-                        音量
-                    </TextBlock>
+                <DockPanel LastChildFill="False" 
+                           HorizontalSpacing="10">
                     
-                    <TextBlock DockPanel.Dock="Right" 
-                               Width="30"
-                               VerticalAlignment="Center"
-                               Text="{Binding Rate}" />
-                    
-                    <Slider DockPanel.Dock="Right"
-                            Width="100"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Minimum="0"
-                            Maximum="6"
-                            TickFrequency="1"
-                            IsSnapToTickEnabled="True"
-                            TickPlacement="Outside"
-                            Value="{Binding RateStep}"/>
+                    <StackPanel DockPanel.Dock="Right" 
+                                Orientation="Horizontal"
+                                Spacing="5">
+                        
+                        <TextBlock DockPanel.Dock="Right" 
+                                   VerticalAlignment="Center">
+                            音量
+                        </TextBlock>
+                        
+                        <Slider DockPanel.Dock="Right"
+                                Width="100"
+                                VerticalAlignment="Center"
+                                Value="{Binding Volume}" />
+                        
+                        <TextBlock Width="30"
+                                   VerticalAlignment="Center" 
+                                   TextAlignment="Center" 
+                                   Text="{Binding Volume}" />
+                    </StackPanel>
 
-                    <TextBlock DockPanel.Dock="Right" 
-                               VerticalAlignment="Center">
-                        速率
-                    </TextBlock>
+                    <StackPanel DockPanel.Dock="Right" 
+                                Orientation="Horizontal"
+                                Spacing="5">
+                        
+                        <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center">速率</TextBlock>
+                        
+                        <Slider DockPanel.Dock="Right"
+                                Width="100"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Minimum="0"
+                                Maximum="6"
+                                TickFrequency="1"
+                                IsSnapToTickEnabled="True"
+                                TickPlacement="Outside"
+                                Value="{Binding RateStep}"/>
+                        
+                        <TextBlock Width="30" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Rate}" />
+                    </StackPanel>
                 </DockPanel>
 
                 <DockPanel LastChildFill="False" HorizontalSpacing="5">
@@ -68,6 +83,7 @@
                     <Button>四屏</Button>
                 </DockPanel>
             </Panel>
+            
             <TextBlock DockPanel.Dock="Bottom"
                        FontSize="24"
                        VerticalAlignment="Center"
@@ -76,6 +92,4 @@
             </TextBlock>
         </DockPanel>
     </Border>
-
-
 </UserControl>

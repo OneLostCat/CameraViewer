@@ -5,6 +5,7 @@
       <map>
         <entry key="CameraViewer/App.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Controls/DeviceList.axaml" value="CameraViewer/CameraViewer.csproj" />
+        <entry key="CameraViewer/Controls/EventList.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Controls/PlaybackController.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Controls/VideoPlayer.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Views/MainWindow.axaml" value="CameraViewer/CameraViewer.csproj" />

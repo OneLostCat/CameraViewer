@@ -27,34 +27,23 @@
         </Style>
     </Window.Styles>
 
-    <DockPanel Margin="5">
+    <DockPanel Margin="5"
+               HorizontalSpacing="5"
+               VerticalSpacing="5">
 
         <!-- 播放控件 -->
-        <Panel DockPanel.Dock="Bottom"
-               Height="180">
-
-            <c:PlaybackController />
-        </Panel>
+        <c:PlaybackController DockPanel.Dock="Bottom" 
+                              Height="180"/>
 
         <!-- 摄像机列表 -->
-        <Panel DockPanel.Dock="Left"
-                   Margin="0,0,0,5"
-                   Width="220">
-            
-            <c:DeviceList />
-        </Panel>
+        <c:DeviceList DockPanel.Dock="Left" 
+                      Width="220" />
 
         <!-- 事件列表 -->
-        <Panel DockPanel.Dock="Right"
-                   Margin="0,0,0,5"
-                   Width="220">
-            
-            <c:EventList />
-        </Panel>
+        <c:EventList DockPanel.Dock="Right" 
+                     Width="220" />
         
         <!-- 视频播放器 -->
-        <Panel Margin="5,0,5,5">
-            <c:VideoPlayer />
-        </Panel>
+        <c:VideoPlayer />
     </DockPanel>
 </Window>
