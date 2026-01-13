@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="180"
+             mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="180"
              x:Class="CameraViewer.Controls.PlaybackController"
              xmlns:vm="using:CameraViewer.ViewModels"
              x:DataType="vm:MainWindowViewModel">
@@ -10,7 +10,7 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    
+
     <UserControl.Styles>
         <Style Selector="Button">
             <Setter Property="Width" Value="32" />
@@ -25,42 +25,76 @@
 
         <DockPanel Margin="5">
             <Panel DockPanel.Dock="Top">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                <Border CornerRadius="10"
+                        Background="rgba(0,0,0,0.2)"
+                        HorizontalAlignment="Center"
+                        ClipToBounds="True">
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                        <StackPanel.Styles>
+                            <Style Selector="TextBox">
+                                <Setter Property="TextAlignment" Value="Center" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Width" Value="20" />
+                                <Setter Property="MaxLength" Value="2" />
+                            </Style>
+                            
+                            <Style Selector="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="10" />
+                            </Style>
+                        </StackPanel.Styles>
+
+                        <TextBox Width="45" MaxLength="4" Text="{Binding Year}" />
+                        <TextBlock>年</TextBlock>
+                        <TextBox Text="{Binding Month}" />
+                        <TextBlock>月</TextBlock>
+                        <TextBox Text="{Binding Day}" />
+                        <TextBlock>日</TextBlock>
+                        <TextBox Text="{Binding Hour}" />
+                        <TextBlock>时</TextBlock>
+                        <TextBox Text="{Binding Minute}" />
+                        <TextBlock>分</TextBlock>
+                        <TextBox Text="{Binding Second}" />
+                        <TextBlock Padding="0,0,5,0">秒</TextBlock>
+                    </StackPanel>
+                </Border>
+            </Panel>
+
+            <Panel DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Spacing="5">
+                    <Button>一屏</Button>
+                    <Button>二竖</Button>
+                    <Button>二横</Button>
+                    <Button>四屏</Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Spacing="5">
+
                     <Button Command="{Binding JumpBackwardCommand}">后跳</Button>
                     <Button Command="{Binding MoveBackwardCommand}">后退</Button>
                     <Button Command="{Binding SwitchCommand}">播放</Button>
                     <Button Command="{Binding MoveForwardCommand}">前进</Button>
                     <Button Command="{Binding JumpForwardCommand}">前跳</Button>
                 </StackPanel>
-                <DockPanel LastChildFill="False" 
-                           HorizontalSpacing="10">
-                    
-                    <StackPanel DockPanel.Dock="Right" 
-                                Orientation="Horizontal"
-                                Spacing="5">
-                        
-                        <TextBlock DockPanel.Dock="Right" 
-                                   VerticalAlignment="Center">
-                            音量
-                        </TextBlock>
-                        
-                        <Slider DockPanel.Dock="Right"
-                                Width="100"
-                                VerticalAlignment="Center"
-                                Value="{Binding Volume}" />
-                        
-                        <TextBlock Width="30"
-                                   VerticalAlignment="Center" 
-                                   TextAlignment="Center" 
-                                   Text="{Binding Volume}" />
-                    </StackPanel>
 
-                    <StackPanel DockPanel.Dock="Right" 
-                                Orientation="Horizontal"
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Spacing="10">
+
+                    <StackPanel Orientation="Horizontal"
                                 Spacing="5">
-                        
+
                         <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center">速率</TextBlock>
-                        
+
                         <Slider DockPanel.Dock="Right"
                                 Width="100"
                                 HorizontalAlignment="Center"
@@ -70,20 +104,27 @@
                                 TickFrequency="1"
                                 IsSnapToTickEnabled="True"
                                 TickPlacement="Outside"
-                                Value="{Binding RateStep}"/>
-                        
+                                Value="{Binding RateStep}" />
+
                         <TextBlock Width="30" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Rate}" />
                     </StackPanel>
-                </DockPanel>
 
-                <DockPanel LastChildFill="False" HorizontalSpacing="5">
-                    <Button>一屏</Button>
-                    <Button>二竖</Button>
-                    <Button>二横</Button>
-                    <Button>四屏</Button>
-                </DockPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock VerticalAlignment="Center">音量</TextBlock>
+
+                        <Slider DockPanel.Dock="Right"
+                                Width="100"
+                                VerticalAlignment="Center"
+                                Value="{Binding Volume}" />
+
+                        <TextBlock Width="30"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"
+                                   Text="{Binding Volume}" />
+                    </StackPanel>
+                </StackPanel>
             </Panel>
-            
+
             <TextBlock DockPanel.Dock="Bottom"
                        FontSize="24"
                        VerticalAlignment="Center"

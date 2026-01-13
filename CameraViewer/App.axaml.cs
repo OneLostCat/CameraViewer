@@ -1,9 +1,9 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using CameraViewer.Services;
 using CameraViewer.ViewModels;
 using CameraViewer.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +12,8 @@ namespace CameraViewer;
 
 public partial class App : Application
 {
+    private readonly ServiceProvider _service = ServiceExtensions.BuildService();
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -22,20 +24,11 @@ public partial class App : Application
         // 禁用 Avalonia 自带的数据验证，以避免与 CommunityToolkit 的验证冲突
         // 参考 https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
         DisableAvaloniaDataValidation();
-        
-        // 服务
-        var collection = new ServiceCollection();
-        collection.AddSingleton<MainWindowViewModel>();
-        
-        var service = collection.BuildServiceProvider();
-        var vm = service.GetRequiredService<MainWindowViewModel>();
-        
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = vm
-            };
+            desktop.MainWindow = new MainWindow { DataContext = _service.GetRequiredService<MainWindowViewModel>() };
+            desktop.Exit += (_, _) => _service.Dispose();
         }
 
         base.OnFrameworkInitializationCompleted();
