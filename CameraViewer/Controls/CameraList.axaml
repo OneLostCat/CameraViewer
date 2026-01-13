@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="220" d:DesignHeight="450"
-             x:Class="CameraViewer.Controls.DeviceList"
+             x:Class="CameraViewer.Controls.CameraList"
              xmlns:vm="using:CameraViewer.ViewModels"
              x:DataType="vm:MainWindowViewModel">
     
@@ -20,16 +20,21 @@
         </Style>
     </UserControl.Styles>
     
-    
     <Border CornerRadius="10"
             Background="rgba(0,0,0,0.2)">
 
         <DockPanel Margin="5" VerticalSpacing="5">
             <DockPanel DockPanel.Dock="Top"
                        HorizontalSpacing="5">
+                
+                <StackPanel DockPanel.Dock="Right" 
+                            Orientation="Horizontal"
+                            Spacing="5">
+                    
+                    <Button Command="{Binding AddCameraCommand}">添加</Button>
+                    <Button Command="{Binding ShowSettingWindowCommand}">设置</Button>
+                </StackPanel>
 
-                <Button DockPanel.Dock="Right">设置</Button>
-                <Button DockPanel.Dock="Right">添加</Button>
                 <TextBox CornerRadius="10" Watermark="搜索摄像机" />
 
             </DockPanel>

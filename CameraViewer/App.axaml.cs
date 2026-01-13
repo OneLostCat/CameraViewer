@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -12,7 +13,8 @@ namespace CameraViewer;
 
 public partial class App : Application
 {
-    private readonly ServiceProvider _service = ServiceExtensions.BuildService();
+    public new static App Current => Application.Current as App ?? throw new Exception("无法初始化 Current");
+    public ServiceProvider Service { get; } = ServiceExtensions.BuildService();
 
     public override void Initialize()
     {
@@ -27,8 +29,8 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow { DataContext = _service.GetRequiredService<MainWindowViewModel>() };
-            desktop.Exit += (_, _) => _service.Dispose();
+            desktop.MainWindow = Service.GetRequiredService<MainWindow>();
+            desktop.Exit += (_, _) => Service.Dispose();
         }
 
         base.OnFrameworkInitializationCompleted();

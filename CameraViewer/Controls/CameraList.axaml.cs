@@ -2,9 +2,9 @@
 
 namespace CameraViewer.Controls;
 
-public partial class DeviceList : UserControl
+public partial class CameraList : UserControl
 {
-    public DeviceList()
+    public CameraList()
     {
         InitializeComponent();
     }

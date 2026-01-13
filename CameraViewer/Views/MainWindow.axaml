@@ -2,48 +2,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="using:CameraViewer.ViewModels"
-        xmlns:c="using:CameraViewer.Controls"
         mc:Ignorable="d" d:DesignWidth="920" d:DesignHeight="500"
         x:Class="CameraViewer.Views.MainWindow"
+        xmlns:vm="using:CameraViewer.ViewModels"
+        xmlns:c="using:CameraViewer.Controls"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico" 
-        Title="CameraViewer" 
+        Title="CameraViewer"
         MinWidth="920" 
-        MinHeight="500">
+        MinHeight="500"
+        ExtendClientAreaToDecorationsHint="True"> <!-- 存在问题 https://github.com/AvaloniaUI/Avalonia/pull/20217 -->
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
-
-    <Window.Styles>
-        <Style Selector="Button">
-            <Setter Property="Width" Value="32" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="CornerRadius" Value="10" />
-        </Style>
-    </Window.Styles>
-
+    
     <DockPanel Margin="5"
-               HorizontalSpacing="5"
                VerticalSpacing="5">
-
-        <!-- 播放控件 -->
-        <c:PlaybackController DockPanel.Dock="Bottom" 
-                              Height="200"/>
-
-        <!-- 摄像机列表 -->
-        <c:DeviceList DockPanel.Dock="Left" 
-                      Width="220" />
-
-        <!-- 事件列表 -->
-        <c:EventList DockPanel.Dock="Right" 
-                     Width="220" />
         
-        <!-- 视频播放器 -->
-        <c:VideoPlayer />
+        <!-- 标题栏 -->
+        <c:TitleBar DockPanel.Dock="Top" Title="CameraViewer" />
+        
+        <DockPanel HorizontalSpacing="5"
+                   VerticalSpacing="5">
+
+            <!-- 播放控件 -->
+            <c:PlaybackController DockPanel.Dock="Bottom" 
+                                  Height="200"/>
+
+            <!-- 摄像机列表 -->
+            <c:CameraList DockPanel.Dock="Left" 
+                          Width="220" />
+
+            <!-- 事件列表 -->
+            <c:EventList DockPanel.Dock="Right" 
+                         Width="220" />
+        
+            <!-- 视频播放器 -->
+            <c:VideoPlayer />
+        </DockPanel>
     </DockPanel>
 </Window>

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CameraViewer.Models;
+using CameraViewer.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LibVLCSharp.Shared;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CameraViewer.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase, IDisposable
+public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly LibVLC _libVlc;
     private readonly Media _media;
@@ -34,26 +38,36 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public MainWindowViewModel()
     {
-        Core.Initialize();
-        
-        _libVlc = new LibVLC();
-        _media = new Media(_libVlc, new Uri(@"C:\Users\OneLo\Desktop\00_20260113032111_20260113040202.mp4"));
+        _libVlc = App.Current.Service.GetRequiredService<LibVLC>();
 
-        MediaPlayer = new MediaPlayer(_libVlc);
-        MediaPlayer.EnableHardwareDecoding = true;
+        MediaPlayer = App.Current.Service.GetRequiredService<MediaPlayer>();
         MediaPlayer.TimeChanged += OnTimeChanged;
+
+        _media = new Media(_libVlc, new Uri(@"C:\Users\OneLo\Desktop\00_20260113032111_20260113040202.mp4"));
     }
 
-    public void Dispose()
+    [RelayCommand]
+    private async Task AddCamera()
     {
-        _libVlc.Dispose();
-        _media.Dispose();
-        MediaPlayer.Dispose();
+        var window = App.Current.Service.GetRequiredService<CameraEditingWindow>();
 
-        GC.SuppressFinalize(this);
+        // 设为添加
+        (window.DataContext as CameraEditingWindowViewModel)?.IsAdding = true;
+
+        await window.ShowDialog((App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow ??
+                                throw new Exception("无法获取主窗口"));
     }
 
-    // 控件
+    [RelayCommand]
+    private async Task ShowSettingWindow()
+    {
+        var window = App.Current.Service.GetRequiredService<SettingWindow>();
+
+        await window.ShowDialog(App.Current.Service.GetRequiredService<MainWindow>());
+    }
+
+
+    // 播放控制
     [RelayCommand]
     private void Switch()
     {
@@ -69,7 +83,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 break;
             default:
                 MediaPlayer.Play(_media);
-                MediaPlayer.Position = 0; // 修复无法加载视频的神奇 Bug
+                MediaPlayer.Position = 0; // 修复无法加载视频长度的神奇 Bug
                 break;
         }
     }
@@ -97,7 +111,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         MediaPlayer.Time = Math.Max(MediaPlayer.Time - 60_000, 0);
     }
-    
+
     partial void OnVolumeChanged(int value)
     {
         MediaPlayer.Volume = value;
@@ -112,7 +126,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         MediaPlayer.SetRate(rate);
         Rate = rate;
     }
-    
+
     partial void OnYearChanged(string value) => OnTimeChanged();
     partial void OnMonthChanged(string value) => OnTimeChanged();
     partial void OnDayChanged(string value) => OnTimeChanged();

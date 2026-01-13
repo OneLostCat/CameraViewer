@@ -1,0 +1,27 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CameraViewer.Views.CameraEditingWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        xmlns:vm="using:CameraViewer.ViewModels"
+        xmlns:c="using:CameraViewer.Controls"
+        x:DataType="vm:CameraEditingWindowViewModel"
+        Title="{Binding Title}"
+        Width="600"
+        Height="500"
+        ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterOwner">
+
+    <DockPanel Margin="5"
+               VerticalSpacing="5">
+
+        <c:TitleBar DockPanel.Dock="Top"
+                    Title="{Binding Title}" />
+
+        <DockPanel>
+            
+        </DockPanel>
+    </DockPanel>
+</Window>
