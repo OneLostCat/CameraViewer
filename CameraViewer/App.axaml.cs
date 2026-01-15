@@ -8,17 +8,37 @@ using CameraViewer.Services;
 using CameraViewer.ViewModels;
 using CameraViewer.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace CameraViewer;
 
-public partial class App : Application
+public class App : Application
 {
-    public new static App Current => Application.Current as App ?? throw new Exception("无法初始化 Current");
-    public ServiceProvider Service { get; } = ServiceExtensions.BuildService();
+    public new static App Current => Application.Current as App ?? throw new Exception("无法获取 App");
+    public IHost AppHost { get; private set; } = null!;
 
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        
+        // 主机
+        var builder = Host.CreateEmptyApplicationBuilder(new HostApplicationBuilderSettings());
+
+        // 日志
+        builder.Services.AddSerilog(logger => logger
+            .WriteTo.Console()
+            .WriteTo.File("log/main-.txt",rollingInterval: RollingInterval.Day)
+            .Enrich.FromLogContext()
+        );
+
+        // 服务
+        builder.Services.AddServices();
+        builder.Services.AddViews();
+        builder.Services.AddViewModels();
+
+        AppHost = builder.Build();
+        AppHost.Start();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -29,8 +49,8 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = Service.GetRequiredService<MainWindow>();
-            desktop.Exit += (_, _) => Service.Dispose();
+            desktop.MainWindow = AppHost.Services.GetRequiredService<MainWindow>();
+            desktop.Exit += (_, _) => AppHost.Dispose();
         }
 
         base.OnFrameworkInitializationCompleted();

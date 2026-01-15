@@ -3,7 +3,7 @@
              x:Class="CameraViewer.App"
              xmlns:local="using:CameraViewer"
              xmlns:semi="https://irihi.tech/semi"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>

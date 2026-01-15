@@ -2,15 +2,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="200"
         x:Class="CameraViewer.Views.CameraEditingWindow"
         Icon="/Assets/avalonia-logo.ico"
         xmlns:vm="using:CameraViewer.ViewModels"
         xmlns:c="using:CameraViewer.Controls"
         x:DataType="vm:CameraEditingWindowViewModel"
-        Title="{Binding Title}"
+        Title="{Binding WindowTitle}"
         Width="600"
-        Height="500"
+        Height="160"
+        MinWidth="600"
+        MinHeight="160"
         ExtendClientAreaToDecorationsHint="True"
         WindowStartupLocation="CenterOwner">
 
@@ -18,10 +20,58 @@
                VerticalSpacing="5">
 
         <c:TitleBar DockPanel.Dock="Top"
-                    Title="{Binding Title}" />
+                    Title="{Binding WindowTitle}" />
 
-        <DockPanel>
+        <DockPanel Margin="20"
+                   VerticalSpacing="10">
             
+            <DockPanel.Styles>
+                <Style Selector="DockPanel">
+                    <Setter Property="Dock" Value="Top" />
+                </Style>
+                
+                <Style Selector="TextBlock.Name">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Width" Value="70" />
+                </Style>
+
+                <Style Selector="TextBox.Input">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </DockPanel.Styles>
+
+            <Grid DockPanel.Dock="Top" 
+                  ColumnDefinitions="*,*"
+                  ColumnSpacing="20">
+                
+                <DockPanel Grid.Column="0">
+                    <TextBlock Classes="Name">名称:</TextBlock>
+                    <TextBox Classes="Input" Text="{Binding CameraName}" />
+                </DockPanel>
+
+                <DockPanel Grid.Column="1">
+                    <TextBlock Classes="Name">分类:</TextBlock>
+                    <ComboBox Classes="Input"
+                              CornerRadius="10"
+                              Text="{Binding CameraCategory}" />
+                </DockPanel>
+            </Grid>
+
+
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Classes="Name">录像路径:</TextBlock>
+                <TextBox Classes="Input"
+                         Text="{Binding CameraRecordingPath}" />
+            </DockPanel>
+            
+            <Button DockPanel.Dock="Bottom" 
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding ConfirmCommand}"
+                    CornerRadius="10">
+                确认
+            </Button>
         </DockPanel>
     </DockPanel>
 </Window>

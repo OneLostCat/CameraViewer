@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="CameraViewer/App.axaml" value="CameraViewer/CameraViewer.csproj" />
+        <entry key="CameraViewer/Controls/CameraList.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Controls/DeviceList.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Controls/EventList.axaml" value="CameraViewer/CameraViewer.csproj" />
         <entry key="CameraViewer/Controls/PlaybackController.axaml" value="CameraViewer/CameraViewer.csproj" />

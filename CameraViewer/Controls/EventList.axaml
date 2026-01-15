@@ -22,9 +22,10 @@
     </UserControl.Styles>
 
     <Border CornerRadius="10"
-            Background="rgba(0,0,0,0.2)">
+            Background="rgba(0,0,0,0.2)"
+            Padding="5">
         
-        <DockPanel Margin="5" VerticalSpacing="5">
+        <DockPanel VerticalSpacing="5">
             <DockPanel DockPanel.Dock="Top"
                        HorizontalSpacing="5">
                 
